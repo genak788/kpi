@@ -370,10 +370,10 @@
 // Penilaian Form Handler
 document.getElementById('penilaianForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  
-  const selectedTeknisi = Array.from(document.querySelectorAll('input[name="teknisi"]:checked')).map(cb => cb.value);
-  if (selectedTeknisi.length === 0) {
-    showToast('Pilih minimal satu teknisi!', '#ef4444');
+
+  const teknisi = document.getElementById('teknisiInput').value.trim();
+  if (!teknisi) {
+    showToast('Pilih teknisi terlebih dahulu!', '#ef4444');
     return;
   }
 
@@ -384,34 +384,29 @@ document.getElementById('penilaianForm').addEventListener('submit', async functi
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
 
-  for (const teknisi of selectedTeknisi) {
-    const record = {
-      id: Date.now().toString() + Math.random().toString(36).substring(2, 9),
-      username: currentUser,
-      teknisi: teknisi,
-      poin_penilaian: poinPenilaian,
-      nilai: nilai,
-      timestamp: new Date().toISOString()
-    };
+  const record = {
+    id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    username: currentUser,
+    teknisi: teknisi,
+    poin_penilaian: poinPenilaian,
+    nilai: nilai,
+    timestamp: new Date().toISOString()
+  };
 
-    await fetch("https://script.google.com/macros/s/AKfycbwFv3rRsdlI-hIbpZuqJmVAQW7uDwPWj__zgB9tlBrnx_seHIVA08dC-elQFF0ak6b42w/exec", {
-      method: "POST",
-      mode: "no-cors", // ✅ Ini fix anti CORS
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(record)
-    });
-  }
+  await fetch("YOUR_WEB_APP_URL", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(record)
+  });
 
+  // reset form
   document.getElementById('penilaianForm').reset();
-  document.querySelectorAll('input[name="teknisi"]').forEach(cb => cb.checked = false);
-
   submitBtn.classList.remove('loading');
   submitBtn.disabled = false;
 
   showToast("Penilaian berhasil disimpan!", "#10b981");
 });
+
    
    // Toast Notification
     function showToast(message, color) {
