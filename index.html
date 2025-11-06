@@ -173,10 +173,7 @@
          <div class="dropdown-item px-4 py-3 cursor-pointer hover:bg-opacity-80" style="color: #e0e0ff; background: rgba(30, 30, 50, 0.6);" data-value="Kualitas Pekerjaan">
           Servive Type SI210
          </div>
-         <div class="dropdown-item px-4 py-3 cursor-pointer hover:bg-opacity-80" style="background: rgba(30, 30, 50, 0.6); color: #e0e0ff;">
-  Servis IRISNV
-</div>
-
+   
          <div class="dropdown-item px-4 py-3 cursor-pointer hover:bg-opacity-80" style="color: #e0e0ff; background: rgba(30, 30, 50, 0.6);" data-value="Komunikasi">
           Servis ACRA
          </div>
@@ -350,10 +347,11 @@
     
 dropdownItems.forEach(item => {
   item.addEventListener('click', function() {
-    poinInput.value = this.textContent.trim();
+    poinInput.value = this.textContent.trim(); // ✅ Mengambil teks tampilan
     dropdownList.style.display = 'none';
   });
 });
+
 
     
     // Hide dropdown when clicking outside
