@@ -299,12 +299,20 @@
     teknisiDropdown.style.display = "block";
   });
 
-  // Tutup dropdown teknisi ketika klik luar
-document.addEventListener("click", function (e) {
-  if (!e.target.closest(".relative")) {
-    document.getElementById('teknisiDropdown').style.display = "none";
+ // Tutup dropdown teknisi ketika klik di luar  
+document.addEventListener("click", function(e) {
+  const teknisiInput = document.getElementById("teknisiInput");
+  const teknisiDropdown = document.getElementById("teknisiDropdown");
+
+  // Kalau elemen belum ada (misal masih di login), hentikan
+  if (!teknisiInput || !teknisiDropdown) return;
+
+  // Jika klik di luar input & di luar dropdown → sembunyikan dropdown
+  if (!e.target.closest("#teknisiInput") && !e.target.closest("#teknisiDropdown")) {
+    teknisiDropdown.style.display = "none";
   }
 });
+
 
 
 
