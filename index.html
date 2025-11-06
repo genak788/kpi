@@ -396,8 +396,7 @@ document.getElementById('penilaianForm').addEventListener('submit', async functi
     timestamp: new Date().toISOString()
   };
 
-  await fetch("https://script.google.com/macros/s/AKfycbzjjKvDdekJNwL9cfApUQVUfqZFVwPRZNOwKs_7wJrOp2SGl63CKZ9mwefdY3Z2jwRu7w/exec
-", {
+  await fetch("https://script.google.com/macros/s/AKfycbyYxEn7WsPmfKmIw_tb2_txkO_BPqYA5Jmr4vAtPh5PdhH1QacTXHGn8zBDc21H_GZ_/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(record)
