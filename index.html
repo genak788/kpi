@@ -398,11 +398,27 @@ document.getElementById('penilaianForm').addEventListener('submit', async functi
     timestamp: new Date().toISOString()
   };
 
-  await fetch("https://script.google.com/macros/s/AKfycbyYxEn7WsPmfKmIw_tb2_txkO_BPqYA5Jmr4vAtPh5PdhH1QacTXHGn8zBDc21H_GZ_/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(record)
-  });
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbyYxEn7WsPmfKmIw_tb2_txkO_BPqYA5Jmr4vAtPh5PdhH1QacTXHGn8zBDc21H_GZ_/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(record)
+    });
+
+    document.getElementById('penilaianForm').reset();
+    showToast("Penilaian berhasil disimpan!", "#10b981");
+
+  } catch (err) {
+    console.log(err);
+    showToast("Gagal menyimpan! Cek koneksi/Script URL.", "#ef4444");
+  }
+
+  // ✅ tombol selalu kembali normal
+  finally {
+    submitBtn.classList.remove('loading');
+    submitBtn.disabled = false;
+  }
+});
 
   // reset form
   document.getElementById('penilaianForm').reset();
