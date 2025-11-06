@@ -348,12 +348,13 @@
       }
     });
     
-    dropdownItems.forEach(item => {
-      item.addEventListener('click', function() {
-        poinInput.value = this.dataset.value;
-        dropdownList.style.display = 'none';
-      });
-    });
+dropdownItems.forEach(item => {
+  item.addEventListener('click', function() {
+    poinInput.value = this.textContent.trim();
+    dropdownList.style.display = 'none';
+  });
+});
+
     
     // Hide dropdown when clicking outside
     document.addEventListener('click', function(e) {
