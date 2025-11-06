@@ -258,36 +258,52 @@
       }
     });
     
-    // Show Form Screen
-    function showFormScreen() {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('formScreen').style.display = 'block';
-      
-      // Populate teknisi list based on logged-in user
-      const teknisiList = document.getElementById('teknisiList');
-      teknisiList.innerHTML = '';
-      
-      const teknisiArray = userDatabase[currentUser].teknisi;
-      teknisiArray.forEach((teknisi, index) => {
-        const div = document.createElement('div');
-        div.className = 'flex items-center p-3 rounded-lg';
-        div.style.background = 'rgba(20, 20, 40, 0.4)';
-        div.innerHTML = `
-          <input 
-            type="checkbox" 
-            id="teknisi${index}" 
-            name="teknisi" 
-            value="${teknisi}"
-            class="checkbox-custom"
-          >
-          <label for="teknisi${index}" class="ml-3 cursor-pointer" style="color: #e0e0ff;">
-            ${teknisi}
-          </label>
-        `;
-        teknisiList.appendChild(div);
-      });
+  function showFormScreen() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('formScreen').style.display = 'block';
+
+  // Ambil daftar teknisi berdasarkan user login
+  const teknisiArray = userDatabase[currentUser].teknisi;
+
+  const teknisiInput = document.getElementById('teknisiInput');
+  const teknisiDropdown = document.getElementById('teknisiDropdown');
+
+  teknisiInput.value = "";
+  teknisiDropdown.innerHTML = "";
+  teknisiDropdown.style.display = "none";
+
+  teknisiInput.addEventListener("input", function () {
+    const search = teknisiInput.value.toLowerCase();
+    teknisiDropdown.innerHTML = "";
+
+    const filtered = teknisiArray.filter(nama => nama.toLowerCase().includes(search));
+
+    if (filtered.length === 0 || search === "") {
+      teknisiDropdown.style.display = "none";
+      return;
     }
-    
+
+    filtered.forEach(nama => {
+      const item = document.createElement("div");
+      item.className = "px-4 py-3 cursor-pointer hover:bg-opacity-80";
+      item.style.background = "rgba(30, 30, 50, 0.6)";
+      item.style.color = "#e0e0ff";
+      item.textContent = nama;
+      item.onclick = () => {
+        teknisiInput.value = nama;
+        teknisiDropdown.style.display = "none";
+      };
+      teknisiDropdown.appendChild(item);
+    });
+
+    teknisiDropdown.style.display = "block";
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".relative")) teknisiDropdown.style.display = "none";
+  });
+}
+
     // Logout Handler
     document.getElementById('logoutBtn').addEventListener('click', function() {
       currentUser = null;
