@@ -299,11 +299,13 @@
     teknisiDropdown.style.display = "block";
   });
 
-  // Tutup dropdown ketika klik luar
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".relative")) teknisiDropdown.style.display = "none";
-  });
-}
+  // Tutup dropdown teknisi ketika klik luar
+document.addEventListener("click", function (e) {
+  if (!e.target.closest(".relative")) {
+    document.getElementById('teknisiDropdown').style.display = "none";
+  }
+});
+
 
 
     
