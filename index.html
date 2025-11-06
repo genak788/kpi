@@ -154,15 +154,13 @@
        </div><button id="logoutBtn" class="px-4 py-2 rounded-lg text-sm font-medium" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);"> Keluar </button>
       </div>
       <form id="penilaianForm" class="space-y-6"><!-- Nama Teknisi -->
-     <div>
+      <div>
   <label class="block text-sm font-medium mb-2" style="color: #c0c0e0;">
     <span class="icon">👷</span>Pilih Teknisi
   </label>
-
   <div class="relative">
     <input type="text" id="teknisiInput" class="input-field w-full px-4 py-3 rounded-lg"
       placeholder="Ketik nama teknisi..." autocomplete="off" required>
-
     <div id="teknisiDropdown"
       class="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-10"
       style="background: rgba(20, 20, 40, 0.95); border: 1px solid rgba(100, 100, 255, 0.3); display: none;">
@@ -262,16 +260,18 @@
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('formScreen').style.display = 'block';
 
-  // Ambil daftar teknisi berdasarkan user login
+  // Ambil daftar teknisi berdasarkan user
   const teknisiArray = userDatabase[currentUser].teknisi;
 
   const teknisiInput = document.getElementById('teknisiInput');
   const teknisiDropdown = document.getElementById('teknisiDropdown');
 
+  // Reset input
   teknisiInput.value = "";
   teknisiDropdown.innerHTML = "";
   teknisiDropdown.style.display = "none";
 
+  // Munculkan dropdown saat mengetik
   teknisiInput.addEventListener("input", function () {
     const search = teknisiInput.value.toLowerCase();
     teknisiDropdown.innerHTML = "";
@@ -299,11 +299,14 @@
     teknisiDropdown.style.display = "block";
   });
 
+  // Tutup dropdown ketika klik luar
   document.addEventListener("click", function (e) {
     if (!e.target.closest(".relative")) teknisiDropdown.style.display = "none";
   });
 }
 
+
+    
     // Logout Handler
     document.getElementById('logoutBtn').addEventListener('click', function() {
       currentUser = null;
@@ -407,7 +410,6 @@ document.getElementById('penilaianForm').addEventListener('submit', async functi
   showToast("Penilaian berhasil disimpan!", "#10b981");
 });
 
-   
    // Toast Notification
     function showToast(message, color) {
       const toast = document.createElement('div');
