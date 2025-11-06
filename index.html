@@ -1,154 +1,154 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sistem Penilaian Teknisi</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  body { margin:0; padding:0; font-family: Inter, sans-serif; }
-  .gradient-bg { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); min-height:100vh; }
-  .card { background: rgba(30,30,50,0.8); backdrop-filter: blur(10px); border:1px solid rgba(100,100,255,0.2); }
-  .input-field { background: rgba(20,20,40,0.6); border:1px solid rgba(100,100,255,0.3); color:#e0e0ff; }
-  .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color:#fff; }
-  .toast { position:fixed;top:20px;right:20px;padding:14px 20px;border-radius:12px;color:#fff;z-index:999; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Penilaian Teknisi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { box-sizing: border-box; margin: 0; padding: 0; height: 100%; font-family: 'Inter', sans-serif; }
+    html { height: 100%; }
+    .gradient-bg { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); min-height: 100%; }
+    .card { background: rgba(30,30,50,0.8); backdrop-filter: blur(10px); border: 1px solid rgba(100,100,255,0.2); box-shadow: 0 8px 32px rgba(0,0,0,0.3);}
+    .input-field { background: rgba(20,20,40,0.6); border: 1px solid rgba(100,100,255,0.3); color:#e0e0ff; transition:.3s; }
+    .input-field:focus { outline:none; border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,0.1); background:rgba(30,30,50,0.8);}
+    .btn-primary { background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%); transition:.3s; color:white; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(99,102,241,0.4); }
+    .toast { position:fixed; top:20px; right:20px; padding:16px 24px; border-radius:12px; color:white; z-index:1000;}
+  </style>
 </head>
+
 <body>
 <div class="gradient-bg">
 
 <!-- LOGIN -->
-<div id="loginScreen" class="flex items-center justify-center min-h-screen p-6">
-  <div class="card p-8 rounded-2xl w-full max-w-md">
-    <h1 class="text-center text-3xl font-bold mb-6" style="color:#e0e0ff;">Login Sistem</h1>
+<div id="loginScreen" class="min-h-full flex items-center justify-center p-6">
+  <div class="card rounded-2xl p-8 w-full max-w-md">
+    <div class="text-center mb-8">
+      <div class="text-5xl mb-4">🔐</div>
+      <h1 class="text-3xl font-bold mb-2" style="color:#e0e0ff;">Login Sistem</h1>
+    </div>
+
     <form id="loginForm" class="space-y-6">
-      <div>
-        <label class="text-sm" style="color:#c0c0e0;">Username</label>
-        <input type="text" id="username" class="input-field w-full px-4 py-3 rounded-lg" required>
-      </div>
-      <div>
-        <label class="text-sm" style="color:#c0c0e0;">Password</label>
-        <input type="password" id="password" class="input-field w-full px-4 py-3 rounded-lg" required>
-      </div>
-      <button class="btn-primary w-full py-3 rounded-lg font-semibold">Masuk</button>
+      <input type="text" id="username" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Username" required>
+      <input type="password" id="password" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Password" required>
+      <button type="submit" class="btn-primary w-full py-3 rounded-lg text-lg">Masuk</button>
     </form>
   </div>
 </div>
 
 <!-- FORM -->
-<div id="formScreen" class="min-h-screen p-6 hidden">
-  <div class="max-w-3xl mx-auto card p-8 rounded-2xl">
+<div id="formScreen" class="min-h-full p-6" style="display:none;">
+  <div class="max-w-3xl mx-auto">
+    <div class="card rounded-2xl p-8 mb-6">
 
-    <div class="flex justify-between mb-6">
-      <h2 class="text-2xl font-bold" style="color:#e0e0ff;">Form Penilaian Teknisi</h2>
-      <button id="logoutBtn" class="px-4 py-2 rounded-lg text-sm" style="background:rgba(239,68,68,0.2);color:#fca5a5;">Keluar</button>
-    </div>
+      <form id="penilaianForm" class="space-y-6">
 
-    <form id="penilaianForm" class="space-y-6">
+        <!-- ✅ Dropdown Teknisi -->
+        <div>
+          <label class="block text-sm font-medium mb-2" style="color:#c0c0e0;">
+            <span class="icon">👷</span>Pilih Teknisi
+          </label>
+          <div class="relative">
+            <input type="text" id="teknisiInput" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Ketik nama teknisi..." autocomplete="off" required>
+            <div id="teknisiDropdown" class="absolute top-full left-0 right-0 mt-1 rounded-lg overflow-hidden z-10"
+              style="background:rgba(20,20,40,0.95); border:1px solid rgba(100,100,255,0.3); display:none;">
+            </div>
+          </div>
+        </div>
 
-      <!-- Dropdown Teknisi -->
-      <div>
-        <label class="text-sm" style="color:#c0c0e0;">Pilih Teknisi</label>
+        <!-- Poin Penilaian -->
         <div class="relative">
-          <input type="text" id="teknisiInput" class="input-field w-full px-4 py-3 rounded-lg" autocomplete="off" placeholder="Ketik nama teknisi..." required>
-          <div id="teknisiDropdown" class="absolute left-0 right-0 mt-1 rounded-lg overflow-hidden z-10"
-               style="background:rgba(20,20,40,0.95);border:1px solid rgba(100,100,255,0.3);display:none;"></div>
+          <label class="block text-sm font-medium mb-2" style="color:#c0c0e0;">
+            <span class="icon">📋</span>Poin Penilaian
+          </label>
+          <input type="text" id="poinPenilaian" class="input-field w-full px-4 py-3 rounded-lg" autocomplete="off" required>
         </div>
-      </div>
 
-      <!-- Poin -->
-      <div class="relative">
-        <label class="text-sm" style="color:#c0c0e0;">Poin Penilaian</label>
-        <input type="text" id="poinPenilaian" class="input-field w-full px-4 py-3 rounded-lg" autocomplete="off" required>
-        <div id="dropdownList" class="absolute left-0 right-0 mt-1 rounded-lg overflow-hidden z-10"
-             style="background:rgba(20,20,40,0.95);border:1px solid rgba(100,100,255,0.3);display:none;">
-          <div class="dropdown-item px-4 py-3 cursor-pointer" style="color:#e0e0ff;">Servis MMR</div>
-          <div class="dropdown-item px-4 py-3 cursor-pointer" style="color:#e0e0ff;">Servis IRISNV</div>
-          <div class="dropdown-item px-4 py-3 cursor-pointer" style="color:#e0e0ff;">Servis ACRA</div>
-          <div class="dropdown-item px-4 py-3 cursor-pointer" style="color:#e0e0ff;">Setting Brake</div>
-          <div class="dropdown-item px-4 py-3 cursor-pointer" style="color:#e0e0ff;">Setting Pintu</div>
-        </div>
-      </div>
+        <!-- Nilai -->
+        <input type="number" id="nilai" class="input-field w-full px-4 py-3 rounded-lg" placeholder="Nilai (1-100)" min="1" max="100" required>
 
-      <!-- Nilai -->
-      <div>
-        <label class="text-sm" style="color:#c0c0e0;">Nilai (1-100)</label>
-        <input type="number" id="nilai" class="input-field w-full px-4 py-3 rounded-lg" min="1" max="100" required>
-      </div>
+        <button type="submit" id="submitBtn" class="btn-primary w-full py-3 rounded-lg text-lg">Submit Penilaian</button>
+      </form>
 
-      <button id="submitBtn" class="btn-primary w-full py-3 rounded-lg font-semibold">Submit</button>
-    </form>
+    </div>
   </div>
 </div>
+
 </div>
 
 <script>
 let currentUser = null;
 
 const userDatabase = {
-  admin:{password:'admin123',teknisi:['Nova','Zhahral','Nirwana','Asrori']},
-  supervisor:{password:'super456',teknisi:['Eko Prasetyo','Fajar Nugroho','Gunawan Saputra','Hendra Kusuma']},
-  manager:{password:'manage789',teknisi:['Irfan Hakim','Joko Widodo','Kurnia Sari','Lestari Putri']}
+  'admin': { password:'admin123', teknisi:['Nova','Zhahral','Nirwana','Asrori'] },
+  'supervisor': { password:'super456', teknisi:['Eko','Fajar','Gunawan','Hendra'] },
+  'manager': { password:'manage789', teknisi:['Irfan','Joko','Kurnia','Lestari'] }
 };
 
-document.getElementById('loginForm').onsubmit = e=>{
+document.getElementById('loginForm').addEventListener('submit', e => {
   e.preventDefault();
-  let u=username.value.trim(), p=password.value;
-  if(userDatabase[u] && userDatabase[u].password===p){ currentUser=u; showFormScreen(); }
-  else showToast("Username atau Password salah!");
-};
+  const u = username.value.trim(), p = password.value;
+  if(userDatabase[u] && userDatabase[u].password === p){ currentUser=u; showFormScreen(); }
+  else showToast('Username atau password salah!','#ef4444');
+});
 
 function showFormScreen(){
-  loginScreen.classList.add("hidden");
-  formScreen.classList.remove("hidden");
+  loginScreen.style.display='none';
+  formScreen.style.display='block';
 
-  const teknisiArray = userDatabase[currentUser].teknisi;
-  teknisiInput.value="";
-  teknisiDropdown.innerHTML="";
-  teknisiInput.oninput=()=>{
-    const s=teknisiInput.value.toLowerCase();
-    teknisiDropdown.innerHTML="";
-    const f=teknisiArray.filter(n=>n.toLowerCase().includes(s));
-    if(!s||f.length===0){ teknisiDropdown.style.display="none"; return; }
-    f.forEach(n=>{
-      let d=document.createElement("div");
-      d.className="px-4 py-3 cursor-pointer";
-      d.style.color="#e0e0ff";
-      d.textContent=n;
-      d.onclick=()=>{ teknisiInput.value=n; teknisiDropdown.style.display="none"; };
-      teknisiDropdown.appendChild(d);
+  const arr = userDatabase[currentUser].teknisi;
+  const input = teknisiInput, box = teknisiDropdown;
+
+  input.value = ""; box.innerHTML = ""; box.style.display="none";
+
+  input.oninput = ()=>{
+    const s = input.value.toLowerCase();
+    box.innerHTML="";
+    const match = arr.filter(n=>n.toLowerCase().includes(s));
+    if(!s || match.length===0){ box.style.display="none"; return; }
+    match.forEach(n=>{
+      const div=document.createElement("div");
+      div.textContent=n; div.className="px-4 py-3 cursor-pointer"; div.style.color="#e0e0ff";
+      div.onclick=()=>{input.value=n; box.style.display="none";}
+      box.appendChild(div);
     });
-    teknisiDropdown.style.display="block";
+    box.style.display="block";
   };
 }
 
-logoutBtn.onclick=()=>location.reload();
+document.addEventListener("click", e=>{
+  if(!e.target.closest("#teknisiInput") && !e.target.closest("#teknisiDropdown")){
+    teknisiDropdown.style.display="none";
+  }
+});
 
-document.getElementById("penilaianForm").onsubmit=async e=>{
+document.getElementById('penilaianForm').addEventListener('submit', async e=>{
   e.preventDefault();
-  const teknisi=teknisiInput.value.trim();
-  if(!teknisi){ showToast("Pilih teknisi!"); return; }
-  const record={
-    username:currentUser,
-    teknisi:teknisi,
-    poin_penilaian:poinPenilaian.value,
-    nilai: nilai.value,
-    timestamp:new Date().toISOString()
-  };
-  await fetch("https://script.google.com/macros/s/AKfycbwFv3rRsdlI-hIbpZuqJmVAQW7uDwPWj__zgB9tlBrnx_seHIVA08dC-elQFF0ak6b42w/exec",{
-    method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(record)
-  });
-  penilaianForm.reset();
-  showToast("Penilaian berhasil disimpan!");
-};
+  
+  const teknisi = teknisiInput.value.trim();
+  if(!teknisi) return showToast("Pilih teknisi dulu!", "#ef4444");
 
-function showToast(msg){ 
-  let t=document.createElement("div");
-  t.className="toast";
-  t.style.background="#10b981";
-  t.innerText=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),3000);
+  const rec = {
+    id: Date.now()+"-"+Math.random().toString(36).slice(2),
+    username: currentUser,
+    teknisi,
+    poin_penilaian: poinPenilaian.value,
+    nilai: nilai.value,
+    timestamp: new Date().toISOString()
+  };
+
+  await fetch("YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE", {
+    method:"POST", mode:"no-cors", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec)
+  });
+
+  penilaianForm.reset();
+  showToast("Penilaian berhasil disimpan!","#10b981");
+});
+
+function showToast(msg,color){
+  const t=document.createElement('div'); t.className='toast'; t.style.background=color; t.textContent=msg;
+  document.body.appendChild(t); setTimeout(()=>t.remove(),3000);
 }
 </script>
 
