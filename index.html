@@ -361,7 +361,11 @@
 
 async function loadHistory() {
     const nama = "Peserta A"; // nanti bisa diganti dinamis
-    const url = "https://script.google.com/macros/s/AKfycbycrIv2rtyRIngHfdbkXI4jtr73-3kvS-Nxb0kX0Q8MKw9VAn5ZJLHFL6NcfagQINiOkg/exec?nama=" + encodeURIComponent(nama);
+   const url =
+  "https://script.google.com/macros/s/AKfycbycrIv2rtyRIngHfdbkXI4jtr73-3kvS-Nxb0kX0Q8MKw9VAn5ZJLHFL6NcfagQINiOkg/exec?nama=" +
+  encodeURIComponent(nama) +
+  "&nocache=" +
+  Date.now();
 
     const response = await fetch(url);
     const data = await response.json();
